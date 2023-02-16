@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
+
 @Service
 public class libraryService {
     private static List<libraryModel>  libraries = new ArrayList<libraryModel>();
@@ -20,15 +22,10 @@ public class libraryService {
     public List<libraryModel> findAll(){
         return libraries;
     }
-    public List<String> findName(String search, List<String> list) {
-        List<String> library = new ArrayList<String>();
+    public libraryModel findlibNumber(int no){
 
-        for(String str: list) {
-            if (str.contains(search)) {
-                library.add(str);
-            }
-        }
-
+        Predicate<? super libraryModel> predicate = library -> library.getLibNumber()==no;
+        libraryModel library =libraries.stream().filter(predicate).findFirst().get();
         return library;
     }
     public void addLib(libraryModel library){
